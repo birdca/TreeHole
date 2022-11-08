@@ -7,6 +7,7 @@ contract TreeHole {
     // mapping timestamp w/ Holes
     mapping(uint => uint) mapLen;
     mapping(uint => mapping(uint => string)) map;
+    event postLog(uint timestamp, uint id);
 
     function post(string memory words) public {
         
@@ -16,6 +17,8 @@ contract TreeHole {
         uint timestamp = block.timestamp;
         ++mapLen[timestamp];
         map[timestamp][mapLen[timestamp]] = words;
+
+        emit postLog(timestamp, mapLen[timestamp]);
     }
 
     function get(uint timestamp, uint id) public view returns (string memory) {
