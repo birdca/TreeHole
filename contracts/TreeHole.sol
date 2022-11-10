@@ -14,7 +14,7 @@ contract TreeHole {
     mapping(uint => mapping(uint => string)) secretMap;
     mapping(string => uint) tagMapLen;
     mapping(string => TimeStamp[]) tagMap;
-    event postLog(uint timestamp, uint id);
+    event postLog(uint indexed timestamp, uint indexed id);
     event display(string tag);
     event insertTag(string tag);
 
@@ -26,7 +26,7 @@ contract TreeHole {
 
         uint j = 0;
         for(uint i = 0; i < byteWords.length; i++) {
-            if (byteWords[i] != " " || byteWords[i] != "," || byteWords[i] != "." || byteWords[i] != "!" || byteWords[i] != "?") {
+            if (byteWords[i] != " " || byteWords[i] != ",") {
                 // tmp[j++] = byteWords[i];
                 assembly { mstore(add(tmp, j), mload(add(byteWords, i))) }
                 emit display(string(tmp));
@@ -59,16 +59,12 @@ contract TreeHole {
         emit postLog(timestamp, secretMapLen[timestamp]);
     }
 
-    function get(uint timestamp) public view returns (uint) {
-
-        require(timestamp <= block.timestamp, "This Srecret Must From Future.");
-
+    function getMapLen(uint timestamp) public view returns (uint) {
         return secretMapLen[timestamp];
     }
 
     function get(uint timestamp, uint id) public view returns (string memory) {
 
-        require(timestamp <= block.timestamp, "This Srecret Must From Future.");
         require(id > 0 && id <= secretMapLen[timestamp], "The Secret ID Is NOT Exist!");
 
         return secretMap[timestamp][id];
