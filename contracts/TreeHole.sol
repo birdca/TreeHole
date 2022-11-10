@@ -26,7 +26,7 @@ contract TreeHole {
 
         uint j = 0;
         for(uint i = 0; i < byteWords.length; i++) {
-            if (byteWords[i] != " " || byteWords[i] != ",") {
+            if (byteWords[i] != " " || byteWords[i] != "," || byteWords[i] != "." || byteWords[i] != "!" || byteWords[i] != "?") {
                 // tmp[j++] = byteWords[i];
                 assembly { mstore(add(tmp, j), mload(add(byteWords, i))) }
                 emit display(string(tmp));
@@ -57,6 +57,13 @@ contract TreeHole {
         // addTag(words, timestamp, secretMapLen[timestamp]);
 
         emit postLog(timestamp, secretMapLen[timestamp]);
+    }
+
+    function get(uint timestamp) public view returns (uint) {
+
+        require(timestamp <= block.timestamp, "This Srecret Must From Future.");
+
+        return secretMapLen[timestamp];
     }
 
     function get(uint timestamp, uint id) public view returns (string memory) {
