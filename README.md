@@ -16,3 +16,4 @@ About function get():
 About function search():
 This is a unfinished function.
 Ideally, use search(word) to find specific word in secrects, and it'll list out all the history secrets that mentioned this word, like the feature #tag.
+[Note]: Where I'm stucked in is that the insertTag() not being triggered, but I didn't find out the reason yet.
